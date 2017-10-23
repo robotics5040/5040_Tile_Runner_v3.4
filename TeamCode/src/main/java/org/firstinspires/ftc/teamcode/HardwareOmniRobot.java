@@ -32,11 +32,12 @@ public class HardwareOmniRobot
     public DcMotor rightMotor2 = null;
     public Servo jknock = null;
     public Servo dumper = null;
-    public Servo grabber = null;
+   // public Servo grabber = null;
     public Servo claw1 = null;
     public Servo claw2 = null;
     public DcMotor reel = null;
     public DcMotor slide = null;
+    public DcMotor grabber = null;
     private final double MIN_MOTOR_OUTPUT_VALUE = -1.0;
     private final double MAX_MOTOR_OUTPUT_VALUE = 1.0;
 
@@ -70,9 +71,10 @@ public class HardwareOmniRobot
             reel = hwMap.dcMotor.get("reel");
             dumper = hwMap.servo.get("dumper");
             claw1 = hwMap.servo.get("claw_1");
-            grabber = hwMap.servo.get("grabber");
+            //grabber = hwMap.servo.get("grabber");
             claw2 = hwMap.servo.get("claw_2");
             jknock = hwMap.servo.get("jknock");
+            grabber = hwMap.dcMotor.get("grabber");
 
             reel.setDirection(DcMotor.Direction.FORWARD);
             slide.setDirection(DcMotor.Direction.REVERSE);
@@ -80,7 +82,11 @@ public class HardwareOmniRobot
             leftMotor2.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
             rightMotor1.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
             rightMotor2.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
-            grabber.setDirection(Servo.Direction.REVERSE);
+            //grabber.setDirection(Servo.Direction.REVERSE);
+            grabber.setDirection(DcMotor.Direction.REVERSE);
+            grabber.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            grabber.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
 
             // Set all motors to zero power
             leftMotor1.setPower(0);
@@ -92,8 +98,11 @@ public class HardwareOmniRobot
             jknock.setPosition(1);
             claw1.setPosition(.35);
             claw2.setPosition(.5);
-            grabber.scaleRange(0.0, 0.25);
-            grabber.setPosition(0.220);
+            //grabber.scaleRange(0.0, 0.25);
+            //grabber.setPosition(0.220);aqw
+
+            grabber.setPower(0.75);
+            grabber.setTargetPosition(1430);
 
             dumper.setPosition(0);
 
@@ -191,10 +200,10 @@ public class HardwareOmniRobot
 
 
         try {
-            leftMotor1.setPower(limit(((forward - sideways)/2) * .5 + (-.3 * rotation)));
-            leftMotor2.setPower(limit(((forward + sideways)/2) * .5 + (-.3 * rotation)));
-            rightMotor1.setPower(limit(((-forward - sideways)/2) * .5 + (-.3 * rotation)));
-            rightMotor2.setPower(limit(((-forward + sideways)/2) * .5 + (-.3 * rotation)));
+            leftMotor1.setPower(limit(((forward - sideways)/2) * 1 + (-.314 * rotation)));
+            leftMotor2.setPower(limit(((forward + sideways)/2) * 1 + (-.314 * rotation)));
+            rightMotor1.setPower(limit(((-forward - sideways)/2) * 1 + (-.314 * rotation)));
+            rightMotor2.setPower(limit(((-forward + sideways)/2) * 1 + (-.314 * rotation)));
         } catch (Exception e) {
             RobotLog.ee(MESSAGETAG, e.getStackTrace().toString());
         }
